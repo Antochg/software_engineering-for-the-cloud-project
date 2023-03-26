@@ -3,10 +3,10 @@ kind: Ingress
 metadata:
   name: service-ingress
   annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
-    - host: front-service.localhost
+    - host: front-service.info
       http:
         paths:
           - path: /front-service
@@ -15,11 +15,11 @@ spec:
               service:
                 name: front-service
                 port:
-                  name: http
-          - path: /
+                  number: 8080
+          - path: /back-service
             pathType: Prefix
             backend:
               service:
                 name: back-service
                 port:
-                  name: http
+                  number: 8080

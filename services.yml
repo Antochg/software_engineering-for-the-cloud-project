@@ -115,33 +115,3 @@ spec:
   selector:
     app: back-service
   type: LoadBalancer
-
-
----
-
-
-apiVersion: networking.k8s.io/v1
-kind: Ingress
-metadata:
-  name: service-ingress
-  annotations:
-    nginx.ingress.kubernetes.io/rewrite-target: /
-spec:
-  rules:
-    - host: front-service.localhost
-      http:
-        paths:
-          - path: /front-service
-            pathType: Prefix
-            backend:
-              service:
-                name: front-service
-                port:
-                  name: http
-          - path: /
-            pathType: Prefix
-            backend:
-              service:
-                name: back-service
-                port:
-                  name: http

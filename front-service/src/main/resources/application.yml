@@ -1,1 +1,1 @@
-backServiceUrl: http://backservice.default.svc.cluster.local:80
+backServiceUrl: http://back-service:80/
