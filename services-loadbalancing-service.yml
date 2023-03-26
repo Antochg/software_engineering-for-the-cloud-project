@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: front-service
+  name: front-service
+spec:
+  ports:
+    - nodePort: 30945
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: front-service
+  type: LoadBalancer
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: back-service
+  name: back-service
+spec:
+  ports:
+    - nodePort: 30945
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: back-service
+  type: LoadBalancer

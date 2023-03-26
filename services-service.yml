@@ -1,0 +1,32 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service
+spec:
+  ports:
+    - nodePort: 31280
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: front-service
+  type: NodePort
+ 
+ 
+ ---
+ 
+ 
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-service
+spec:
+  ports:
+    - nodePort: 31280
+      port: 8080
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: back-service
+  type: NodePort
+  
