@@ -1,0 +1,147 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: front-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: front-service
+  type: ClusterIP
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: back-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 8080
+  selector:
+    app: back-service
+  type: ClusterIP
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: front-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: front-service
+  template:
+    metadata:
+      labels:
+        app: front-service
+    spec:
+      containers:
+        - image: antochg/front-service:1
+          imagePullPolicy: IfNotPresent
+          name: front-service
+      restartPolicy: Always
+
+
+---
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: back-service
+  template:
+    metadata:
+      labels:
+        app: back-service
+    spec:
+      containers:
+        - image: antochg/back-service:1
+          imagePullPolicy: IfNotPresent
+          name: back-service
+      restartPolicy: Always
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: front-service
+  name: front-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: front-service
+  type: LoadBalancer
+
+
+---
+
+
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: back-service
+  name: back-service
+spec:
+  ports:
+    - name: http
+      port: 80
+      protocol: TCP
+      targetPort: 8080
+  selector:
+    app: back-service
+  type: LoadBalancer
+
+
+---
+
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: service-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+spec:
+  rules:
+    - host: front-service.localhost
+      http:
+        paths:
+          - path: /front-service
+            pathType: Prefix
+            backend:
+              service:
+                name: front-service
+                port:
+                  name: http
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: back-service
+                port:
+                  name: http

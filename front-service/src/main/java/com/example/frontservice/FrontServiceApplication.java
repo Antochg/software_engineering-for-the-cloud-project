@@ -1,13 +1,13 @@
-package com.example.microservice2;
+package com.example.frontservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class Microservice2Application {
+public class FrontServiceApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(Microservice2Application.class, args);
+		SpringApplication.run(FrontServiceApplication.class, args);
 	}
 
 }

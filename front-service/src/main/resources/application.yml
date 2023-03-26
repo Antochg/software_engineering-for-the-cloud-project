@@ -1,9 +1,1 @@
-spring:
-  application:
-    name: name-of-the-microservice1
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
-  healthcheck:
-    enabled: true
+backServiceUrl: http://backservice.default.svc.cluster.local:80
